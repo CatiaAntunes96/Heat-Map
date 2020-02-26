@@ -1,0 +1,33 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+}
+
+.heading{
+    align-self: center;
+}
+
+
+.rects {
+    outline: 1px solid black;
+}
+
+.tooltip{
+    position: absolute;           
+    text-align: center;           
+    width: 100px;                  
+    height: 55px;                 
+    padding: 2px;             
+    font: 15px sans-serif;        
+    background: rgba(0,0,0,0.7);   
+    border: 0px;      
+    border-radius: 8px;
+      box-shadow: 1px 1px 5px;
+    pointer-events: none;   
+      color: white;
+}
+
+.cell:hover {
+    outline: 1px solid black;
+}
