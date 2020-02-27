@@ -48,14 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const xLabel = svg.append("text")
     .text("Years")
     .attr("x", width / 2)
-    .attr("y", height - 40);
+    .attr("y", height - 17)
+    .attr("class", "subtitle");
 
   //Add months legend
   const yLabel = svg.append("text")
     .text("Months")
     .attr("x", -350)
-    .attr("y", 40)
-    .attr("transform", "rotate(-90)");
+    .attr("y", 20)
+    .attr("transform", "rotate(-90)")
+    .attr("class", "subtitle");
 
   const symbAdd = value => {
     value = value.toFixed(2).toString().split("");
@@ -113,7 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     svg.append("g")
       .call(yAxis)
-      .attr("transform", "translate (" + padding + ", 0)");
+      .attr("transform", "translate (" + padding + ",0)")
+      .attr("class", "axisValues")
+      .attr("id", "y-axis");
 
     //Define values for x-axis
     const xScale = d3.scaleLinear()
@@ -125,7 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     svg.append("g")
       .call(xAxis.ticks(20))
-      .attr("transform", "translate (0," + (height - padding) + ")");
+      .attr("transform", "translate (0," + (height - padding) + ")")
+      .attr("class", "axisValues")
+      .attr("id", "x-axis");
 
 
     let yearRange = data.monthlyVariance[data.monthlyVariance.length-1].year - data.monthlyVariance[0].year;
@@ -138,6 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("class", "cell")
       .attr("width", width / yearRange - 1)
       .attr("height", (height - 2 * padding) / 12)
+      .attr("data-month", el => el.month - 1)
+      .attr("data-year", el => el.year)
+      .attr("data-temp", el => el.baseTemperature - el.variance)
       .attr("x", el => xScale(el.year))
       .attr("y", el => yScale(el.month - 0.5))
       .style("fill", el => {
@@ -155,8 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
             + symbAdd(el.variance) + "ºC"
           )
           .style("left", d3.event.pageX - 50 + "px")
-				  .style("top", d3.event.pageY - 87 + "px");
+          .style("top", d3.event.pageY - 87 + "px");
+        tooltip.attr("data-year", el.year);
       })
+        
       .on("mouseout", () => {
         tooltip.transition()
           .duration(500)
